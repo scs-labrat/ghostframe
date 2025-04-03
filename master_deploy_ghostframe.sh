@@ -927,7 +927,7 @@ int main(int argc, char **argv) {
     if (argc > 1) {
         printf("Executing command: %s\n", argv[1]);
         // Basic filter attempt (easily bypassable)
-        if (strstr(argv[1], ";") || strstr(argv[1], "&") || strstr(argv[1], "|") || strstr(argv[1], "`")) {
+        if (strstr(argv[1], ";") || strstr(argv[1], "&") || strstr(argv[1], "|") || strstr(argv[1], "``)) {
            printf("Error: Potentially dangerous characters detected in command.\n");
            return 1;
         }
@@ -1639,7 +1639,7 @@ echo "[ASSUMPTION] Running as root/sudo."
 
 # Check Core Dependencies early
 echo "[1/9] Checking Core Dependencies..."
-check_dep docker
+check_dep docker.io
 check_dep docker-compose # Check for docker-compose explicitly
 check_dep openvpn # Check for openvpn client needed on host
 check_dep openssl
