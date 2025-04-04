@@ -910,7 +910,7 @@ EOF
     # qec-sim (SUID binary code, encrypted payload, warning note, flags)
     echo "[*]   Populating qec-sim..."
     # SUID Binary C code
-    cat << EOF > "${PROJECT_DIR}/qec_sim_data/qec_control/qec_control.c"
+    cat << 'EOF' > "${PROJECT_DIR}/qec_sim_data/qec_control/qec_control.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -927,7 +927,7 @@ int main(int argc, char **argv) {
     if (argc > 1) {
         printf("Executing command: %s\n", argv[1]);
         // Basic filter attempt (easily bypassable)
-        if (strstr(argv[1], ";") || strstr(argv[1], "&") || strstr(argv[1], "|") || strstr(argv[1], "``)) {
+        if (strstr(argv[1], ";") || strstr(argv[1], "&") || strstr(argv[1], "|") || strstr(argv[1], "`")) {
            printf("Error: Potentially dangerous characters detected in command.\n");
            return 1;
         }
@@ -991,7 +991,7 @@ EOF
     echo "${FLAG_PAYLOADFOUND}" > "${PROJECT_DIR}/qec_sim_data/flags/flag_payload.txt"
 
     # Optional: Add dummy config file for alternate privesc path
-    # echo "<config><root_password>SuperSecureRootPass1!</root_password></config>" > "${PROJECT_DIR}/qec_sim_data/config/config.xml"
+    echo "<config><root_password>SuperSecureRootPass1!</root_password></config>" > "${PROJECT_DIR}/qec_sim_data/config/config.xml"
 
     echo "[+] Docker volumes populated."
 }
@@ -1044,7 +1044,7 @@ RUN mkdir -p /opt/qec/payload /opt/qec/config /flags_internal /root \
 COPY payload/* /opt/qec/payload/
 COPY flags/* /flags_internal/
 COPY root/* /root/
-COPY config/* /opt/qec/config/ # Mount point for config.xml if used
+# COPY config/* /opt/qec/config/ # Mount point for config.xml if used
 
 # Ensure SSH keys are generated for the host container
 RUN ssh-keygen -A
